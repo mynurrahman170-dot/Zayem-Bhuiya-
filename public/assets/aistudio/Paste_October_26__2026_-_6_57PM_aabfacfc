@@ -1,0 +1,761 @@
+MASTER PROMPT: DATA & CODE — BUSINESS AUTOMATION SYSTEM
+
+1. Project Overview
+
+Build a complete, professional, responsive, multi-tenant SaaS web application named:
+
+Data & Code — Business Automation System
+
+Brand tagline: Precision Data & Software Solutions
+
+The platform will be developed and maintained by Data & Code. It will offer subscription-based business management software to multiple independent companies.
+
+The application must support small businesses, medium-sized businesses and large businesses through one unified system. Each company can configure its own business profile, logo, employees, products, inventory, purchases, sales, accounting, customer dues, supplier payables, invoices, PDF documents and printed reports.
+
+This must be a functional business application with persistent database storage, authentication, authorization, CRUD operations, calculations and reporting—not merely a UI prototype.
+
+2. Mandatory Architecture: Multi-Tenant System
+
+Implement a secure multi-tenant architecture.
+
+- Each registered company must have a separate logical workspace and isolated business data.
+- Every business record must be associated with its authorized company or tenant.
+- One company must never be able to view, search, modify, export or delete another company's private records.
+- Apply server-side authorization and database-level tenant isolation. If using Firebase, implement appropriate Security Rules and server-side validation. If using a relational database, implement suitable row-level security policies.
+- Never rely solely on hiding menu items or frontend conditions for security.
+- Each company must see only its own customers, suppliers, employees, products, purchases, sales, accounts, reports and uploaded files.
+- The platform's Super Admin dashboard and administrative information must never be visible to company users.
+- Data must persist after logout, refresh, device changes and subsequent login.
+- Do not use browser localStorage as the primary database. Use it only for non-sensitive preferences or temporary interface state.
+- Use secure cloud storage for company logos and uploaded documents.
+
+3. User Registration and Access Approval
+
+Create a public registration page where anyone can create an account using an email address or mobile number.
+
+However, registration must NOT automatically grant access to a real company workspace.
+
+Initial registration process
+
+1. A user submits their name, email address and/or mobile number and creates login credentials.
+2. The system creates an account with the status "GUEST" or "DEMO_PENDING".
+3. The user can access only the public pages and authorized demo environment.
+4. The user must not be able to access any real company's data.
+5. The Super Admin reviews and approves the account.
+6. The Super Admin associates the approved login identity with the appropriate company and assigns a role.
+7. Only after authorization can the user access that company's workspace.
+
+Use secure authentication. Verify email or mobile ownership through an appropriate supported verification method. Never treat an unverified email or phone number as proof of identity.
+
+Demo access restrictions
+
+- A guest can use the demo project without receiving access to a real company's database.
+- Limit the guest to a maximum of five total demo business-record creations across the demo environment. Allow a configurable limit of three to five records.
+- Enforce the limit on the server or database side so refreshing the page, changing browsers or modifying frontend code cannot bypass it.
+- Display the remaining demo entries clearly.
+- When the limit is reached, disable further demo record creation and display a professional message asking the user to request approval or a subscription.
+- Demo data must be isolated from production data.
+- Never allow demo users to create real companies, invite employees to real workspaces, change subscriptions or access Super Admin controls.
+
+The Super Admin must be able to approve, reject, suspend or revoke access.
+
+4. Super Admin Dashboard — Private Platform Administration
+
+Create a separate, protected Super Admin dashboard for the platform owner.
+
+The Super Admin dashboard must not appear in company dashboards or guest navigation.
+
+Super Admin features
+
+- Secure Super Admin login and role verification.
+- Add, edit, activate, suspend and deactivate companies.
+- Approve or reject guest and company access requests.
+- Assign approved email addresses and mobile numbers to specific companies.
+- Control which users can log in to each company's workspace.
+- Assign and manage company owners and employees.
+- Configure subscription plans, prices, limits and trial periods.
+- Set subscription start and end dates.
+- View subscription status, renewal dates and payment records.
+- Manage demo limits and demo expiry.
+- View company registration statistics and subscription summaries.
+- Review security events, account status and audit logs.
+- Revoke sessions and suspend unauthorized accounts.
+- Configure platform-wide settings.
+
+The Super Admin must be the only role authorized to create and activate a real company workspace.
+
+Protect the Super Admin account through strong authentication and server-side authorization. Do not expose Super Admin credentials, private API keys or administrative secrets in frontend code.
+
+5. New Company Registration Form
+
+Create a complete company creation form in the Super Admin dashboard with these fields:
+
+1. Company Name — required.
+2. Slogan — optional.
+3. Proprietor / Owner Name — required.
+4. Business Address — required.
+5. Mobile Number — required.
+6. Email Address — required.
+7. Social Media Links — optional; support Facebook, WhatsApp, website and other relevant links.
+8. Company Logo — optional during initial registration; can be uploaded later.
+9. Business Category — required.
+10. Subscription Plan — required.
+11. Subscription Start Date — required.
+12. Subscription End Date — required.
+13. Approved Login Email Address(es) — required for the designated users.
+14. Approved Login Mobile Number(s) — required where mobile login is enabled.
+15. Company Status — Pending, Active, Suspended or Expired.
+
+Company creation rules
+
+- Use the company name entered in this form as the default company name throughout its workspace.
+- Automatically use the saved company profile in invoices, memos, quotations, purchase documents, PDF exports and print layouts.
+- Do not ask company users to enter the company name repeatedly.
+- Allow authorized company owners to update permitted business-profile fields without changing the underlying tenant identity.
+- Only the Super Admin can authorize initial company activation and approved login identities.
+- Prevent unauthorized changes to subscription status, tenant ownership and administrative permissions.
+
+6. Company Branding and Logo Upload
+
+Every company must be able to upload its own logo.
+
+Create a user-friendly logo upload control featuring:
+
+- Browse from device or computer.
+- Select an image from the device's files or gallery.
+- Upload a logo from supported cloud storage when available.
+- Preview the selected logo.
+- Replace or remove the existing logo.
+- Validate file type, file size and image dimensions.
+- Store the logo in secure cloud storage and save its reference in the company's profile.
+- Provide an appropriate fallback when no logo is uploaded.
+
+The company's own logo and name must appear in its dashboard, invoices, memos, quotations, receipts, PDF documents and printed reports.
+
+The platform's Data & Code logo must remain separate from company branding. Do not automatically place the platform logo on a company's customer-facing invoice unless explicitly enabled by the company or required by the platform configuration.
+
+Use the supplied Data & Code logo as the platform brand asset, preserving its DC symbol, silver 3D typography, blue accents and Business Automation System identity. Do not recreate the logo using unrelated icons or replace it with a different brand.
+
+7. Subscription Management
+
+Create configurable subscription plans for small, medium and large businesses.
+
+Each subscription must have:
+
+- Company ID.
+- Plan name.
+- Subscription start date.
+- Subscription end date.
+- Trial status, if applicable.
+- Payment status.
+- Renewal status.
+- Configured employee limit.
+- Configured business-unit limit.
+- Configured storage and feature limits, if applicable.
+
+Show remaining subscription days and renewal notices.
+
+When a subscription expires, block access to protected operational features according to the configured policy. Allow authorized renewal and account support workflows. Do not delete company data merely because the subscription expires.
+
+The Super Admin can extend, renew, suspend or reactivate a subscription.
+
+Never grant a paid subscription solely because a user changes a browser-side value.
+
+8. Business Categories and Unified Modules
+
+The system must support different types of businesses through one shared software architecture.
+
+Examples:
+
+- Retail and wholesale shops.
+- Dealer and dealership businesses.
+- Restaurants and food businesses.
+- Hotels and residential accommodation.
+- Vehicle sales and rental businesses.
+- Distribution and trading businesses.
+- Manufacturing and production businesses.
+- Other product-based commercial enterprises.
+
+During company onboarding, let the Super Admin choose the business category and configure the relevant modules.
+
+The core system must remain consistent across all business categories. Business-specific modules may be enabled when needed.
+
+Small businesses
+
+Provide a simple interface for a proprietor who manages the business personally.
+
+Prioritize sales, purchases, stock, customer dues, supplier payables, daily cash transactions, expenses and profit summaries.
+
+Medium businesses
+
+Support two or three business units, branches or operational business areas according to the subscription plan.
+
+Include employee accounts, role-based permissions, inventory management, dealer pricing, customer and supplier ledgers, business-unit reports and consolidated summaries.
+
+Large businesses
+
+Support five or six business units or more when the subscription plan permits.
+
+Include advanced employee permissions, multiple branches, restaurant operations, hotel accommodation, vehicle-related operations, dealerships, distribution, manufacturing, warehouse management and consolidated financial reporting.
+
+Do not hard-code a small number of branches or business units into the database schema.
+
+All company and business-unit limits must be configurable by the Super Admin.
+
+9. Main Company Dashboard
+
+After approved login, display the company's own branded dashboard.
+
+Include summary cards for:
+
+- Today's sales.
+- Today's purchases.
+- Cash received.
+- Cash paid.
+- Total customer receivables.
+- Total supplier payables.
+- Current stock value.
+- Total expenses.
+- Gross profit.
+- Net profit.
+- Low-stock products.
+- Recent transactions.
+- Subscription status and expiry date.
+
+Provide date filters for today, yesterday, this week, this month, a custom date range and financial year where applicable.
+
+Show charts and summaries based only on authorized company data.
+
+Do not display fake statistics as real financial results. Show zero values or clearly labeled sample data when no transactions exist.
+
+10. Product and Inventory Management
+
+Create a complete product management module.
+
+Fields:
+
+- Product name.
+- SKU or product code.
+- Barcode, when available.
+- Category.
+- Brand.
+- Unit of measurement.
+- Purchase price.
+- Selling price.
+- Wholesale price, where applicable.
+- Dealer price, where applicable.
+- Opening stock.
+- Current stock.
+- Minimum stock threshold.
+- Supplier.
+- Expiry date or batch number, where applicable.
+- Product image, optional.
+- Active or inactive status.
+
+Features:
+
+- Add, edit, search and archive products.
+- Manage categories and units.
+- Record stock received and stock issued.
+- Track stock adjustments and reasons.
+- Display low-stock alerts.
+- Maintain stock movement history.
+- Prevent negative stock unless explicitly authorized by the company.
+- Support multiple warehouses or branches when enabled.
+- Calculate stock balances from validated transactions.
+- Support product variations and batch tracking where relevant.
+
+Stock must automatically update following approved purchases, sales, sales returns, purchase returns and authorized adjustments.
+
+11. Purchase Management and Supplier Payables
+
+Create a purchase module for buying goods from suppliers.
+
+Purchase form fields:
+
+- Purchase invoice number.
+- Supplier.
+- Purchase date.
+- Product or item list.
+- Quantity.
+- Unit cost.
+- Discount.
+- Tax, if applicable.
+- Additional charges, if applicable.
+- Total purchase amount.
+- Amount paid.
+- Outstanding balance.
+- Payment method.
+- Notes and attachments.
+
+Features:
+
+- Cash purchases.
+- Credit purchases.
+- Partial payments.
+- Supplier returns.
+- Supplier payment history.
+- Supplier-wise outstanding balances.
+- Supplier ledger.
+- Purchase reports by date and supplier.
+- Printable purchase invoices and payment receipts.
+
+Accounting rules:
+
+- Credit purchases increase the supplier payable balance.
+- Supplier payments reduce the outstanding balance.
+- Purchase returns reduce the appropriate payable or recoverable balance.
+- Stock must be updated correctly.
+- Do not count the same purchase twice when calculating expenses and profit.
+
+12. Sales, Invoices and Customer Receivables
+
+Create a professional sales and invoicing module.
+
+Invoice fields:
+
+- Automatically generated unique invoice number.
+- Invoice date and time.
+- Customer name.
+- Customer phone number.
+- Customer address, when available.
+- Product name and code.
+- Quantity.
+- Unit price.
+- Discount.
+- Tax, if applicable.
+- Subtotal.
+- Grand total.
+- Amount received.
+- Outstanding balance.
+- Payment method.
+- Salesperson.
+- Notes and terms.
+
+Features:
+
+- Cash sales.
+- Credit sales.
+- Partial payments.
+- Multiple payment entries against an invoice.
+- Sales returns.
+- Invoice cancellation with appropriate permissions and audit records.
+- Customer purchase history.
+- Customer-wise due reports.
+- Salesperson and branch-wise reports.
+- Printable receipts.
+- PDF invoice generation.
+- Product-wise and date-wise sales reports.
+
+Accounting rules:
+
+- Credit sales create customer receivables.
+- Customer payments reduce outstanding receivables.
+- Discounts, returns and cancellations must adjust balances correctly.
+- Prevent duplicate payment posting.
+- Do not recognize the full invoice amount as cash when the customer has paid only part of it.
+
+13. Customer and Supplier Ledgers
+
+Every customer and supplier must have an individual ledger.
+
+Customer ledger
+
+Display:
+
+- Opening balance.
+- Sales invoices.
+- Payments received.
+- Sales returns.
+- Adjustments.
+- Current outstanding balance.
+- Transaction dates.
+- Reference numbers.
+- Running balance.
+
+Supplier ledger
+
+Display:
+
+- Opening balance.
+- Purchases.
+- Payments made.
+- Purchase returns.
+- Adjustments.
+- Current outstanding balance.
+- Transaction dates.
+- Reference numbers.
+- Running balance.
+
+Provide date filters, statement printing and PDF export.
+
+Clearly distinguish customer receivables from supplier payables.
+
+14. Accounting and Cash Management
+
+Create a practical accounting module suitable for small and large businesses.
+
+Include:
+
+- Cash and bank accounts.
+- Income.
+- Expenses.
+- Customer receipts.
+- Supplier payments.
+- Transfers between cash and bank accounts.
+- Opening balances.
+- General ledger.
+- Chart of accounts.
+- Journal entries.
+- Trial balance.
+- Profit and loss statement.
+- Balance sheet.
+- Cash flow summary.
+- Daily cashbook.
+- Account-wise transaction history.
+
+Use a consistent double-entry accounting approach for finalized financial transactions.
+
+Maintain balanced debit and credit entries. Use controlled reversals or adjustment entries for finalized transactions instead of silently deleting accounting history.
+
+Support Bangladeshi Taka (BDT) as the default currency, with suitable currency formatting. Keep tax and VAT settings configurable rather than hard-coding tax assumptions.
+
+15. Expenses and Business Costs
+
+Allow authorized users to record expenses.
+
+Fields:
+
+- Expense category.
+- Expense date.
+- Description.
+- Amount.
+- Payment account.
+- Payee.
+- Reference number.
+- Attachment.
+- Notes.
+
+Provide daily, monthly, annual and category-wise reports.
+
+Separate inventory purchases, operating expenses, capital expenditures and other accounting categories correctly.
+
+Calculate gross profit and net profit according to the underlying accounting entries.
+
+16. Employees and Role-Based Access
+
+Company owners must be able to add employees within the company's subscription limits.
+
+Suggested roles:
+
+- Company Owner.
+- Company Administrator.
+- Accountant.
+- Salesperson.
+- Purchase Officer.
+- Inventory Manager.
+- Branch Manager.
+- Cashier.
+- Restaurant Staff.
+- Hotel Receptionist.
+- Custom Employee Role.
+
+Allow role-based permissions for viewing, creating, editing, approving, exporting and printing records.
+
+An employee must only access the company and business units assigned to them.
+
+Company owners must not be able to promote themselves to Super Admin or change another company's access.
+
+Record important employee actions in an audit log.
+
+17. Dealer and Distribution Management
+
+Support businesses that purchase goods and sell them through dealers, distributors or wholesale customers.
+
+Include:
+
+- Dealer registration.
+- Dealer-specific price lists.
+- Wholesale and retail prices.
+- Dealer credit limits.
+- Credit sales and payments.
+- Dealer-wise outstanding balances.
+- Product distribution records.
+- Sales targets, where configured.
+- Dealer statements.
+- Dealer-specific invoices.
+- Commission tracking, when enabled.
+
+Apply the same inventory, invoice and accounting rules used by the core platform.
+
+18. Restaurant, Hotel, Vehicle and Manufacturing Extensions
+
+Design the application so optional business-specific modules can be enabled without duplicating the core system.
+
+Restaurant
+
+Table management, order entry, kitchen order tickets, menu items, ingredient stock, food sales and daily closing.
+
+Hotel and residential accommodation
+
+Room management, reservations, check-in, check-out, guest billing and room occupancy reports.
+
+Vehicle business
+
+Vehicle inventory, vehicle sales or rentals, maintenance expenses and vehicle-related customer records as appropriate to the business category.
+
+Manufacturing
+
+Raw materials, bills of materials, production batches, material consumption, finished goods, production costs and stock movement.
+
+These modules must use the company's own records and permissions. Enable only relevant features for the selected business category and subscription plan.
+
+19. Company-Branded Invoice, Memo, PDF and Printing
+
+Create a centralized document template system.
+
+Every customer-facing invoice, memo, quotation, receipt and purchase document should use the company's saved profile.
+
+Header information
+
+Display the following when available:
+
+- Company logo.
+- Company name.
+- Slogan.
+- Proprietor name.
+- Business address.
+- Mobile number.
+- Email address.
+- Social media links.
+
+Use a professional layout with clear typography, balanced spacing and an appropriate logo size.
+
+The header should automatically populate from the company profile. Users should not have to manually re-enter these details for every document.
+
+Document requirements
+
+- Responsive on mobile and desktop.
+- A4 PDF support for full documents and reports.
+- Thermal receipt layouts where required.
+- Browser printing with a clean print stylesheet.
+- No dashboard sidebar or navigation in printed documents.
+- No unnecessary background colors or interface elements on paper.
+- Consistent invoice numbering.
+- Print preview.
+- Download PDF.
+- Print directly.
+- Optional signature and seal areas.
+- Optional terms and conditions.
+- Appropriate footer and page numbering for multipage reports.
+
+The system must generate genuine PDF files and printable HTML documents from saved transaction data. Do not create fake PDF download buttons.
+
+Provide separate templates for sales invoices, purchase invoices, receipts, quotations, account statements, stock reports and financial reports.
+
+20. Reports and Business Analytics
+
+Create reports with date filters and export options.
+
+Required reports:
+
+- Sales report.
+- Purchase report.
+- Customer receivables report.
+- Supplier payables report.
+- Customer ledger.
+- Supplier ledger.
+- Product stock report.
+- Stock valuation report.
+- Low-stock report.
+- Expense report.
+- Cashbook.
+- Account ledger.
+- Profit and loss statement.
+- Balance sheet.
+- Trial balance.
+- Employee activity report.
+- Branch or business-unit report.
+- Dealer report.
+- Subscription and company usage report for Super Admin only.
+
+Allow authorized users to export reports as PDF and CSV where appropriate.
+
+All totals must be calculated from actual persisted records and must respect the selected date range, company, branch and user permissions.
+
+21. Interface Design and Branding
+
+Use a premium, modern business software design.
+
+Platform branding:
+
+Data & Code
+
+Precision Data & Software Solutions
+
+BUSINESS AUTOMATION SYSTEM
+
+Use the supplied DC logo as the platform logo.
+
+Design guidelines:
+
+- Professional navy, blue, cyan and silver accents.
+- Clean dashboard cards.
+- Consistent typography.
+- Responsive sidebar navigation.
+- Mobile-friendly menus.
+- Accessible form controls.
+- Search, filters, pagination and useful empty states.
+- Bangla and English language support.
+- Clear Bangla labels for business users in Bangladesh.
+- BDT currency formatting.
+- Date formatting appropriate for Bangladesh.
+- Optional dark and light themes.
+
+The Super Admin dashboard should have a distinct administrative layout and must not be exposed to company users.
+
+The company workspace must prominently display the individual company's branding in its own dashboard and documents.
+
+22. Database Design
+
+Create a normalized, maintainable data model with appropriate indexes, relationships, validation and audit fields.
+
+Include entities or equivalent collections for:
+
+- Users.
+- Authentication identities.
+- Companies or tenants.
+- Approved login identities.
+- Company memberships.
+- Roles and permissions.
+- Business units and branches.
+- Subscription plans.
+- Company subscriptions.
+- Subscription payments.
+- Demo sessions and demo usage limits.
+- Company branding and document settings.
+- Employees.
+- Customers.
+- Suppliers.
+- Products.
+- Product categories.
+- Warehouses and stock movements.
+- Purchase invoices and purchase items.
+- Purchase payments and purchase returns.
+- Sales invoices and sales items.
+- Sales payments and sales returns.
+- Customer and supplier ledgers.
+- Accounts and journal entries.
+- Expenses.
+- Quotations and receipts.
+- Document templates.
+- Audit logs.
+- Notifications.
+- Optional business-specific records.
+
+Use immutable or stable IDs instead of relying on company names as identifiers.
+
+Every tenant-owned record must be associated with the correct tenant. Enforce tenant authorization on all relevant database queries and file access.
+
+Use database transactions or equivalent atomic operations for financial posting and stock updates. Maintain data consistency if a request fails partway through.
+
+23. Security and Reliability
+
+Mandatory security requirements:
+
+- Secure authentication.
+- Server-side role checks.
+- Tenant isolation.
+- Protected Super Admin routes.
+- Database-level access controls.
+- Secure password reset.
+- Appropriate email or mobile verification.
+- Session management and revocation.
+- Server-side validation.
+- File upload validation.
+- Rate limiting where supported.
+- Protection against unauthorized data modification.
+- Audit logs for sensitive operations.
+- Safe financial transaction reversals.
+- Secure handling of API keys and service credentials.
+- Backup and recovery planning.
+
+Never place service-role secrets, administrative passwords or private API keys in public frontend code.
+
+Do not allow users to change their own roles, company IDs, subscription status or demo limits by modifying requests.
+
+24. Technical Implementation Requirements
+
+Build the application using a maintainable, modern web architecture supported by Google AI Studio.
+
+Select a compatible frontend, backend, database, authentication system and secure file storage solution.
+
+If Firebase is selected, configure Firebase Authentication, a persistent database, Cloud Storage and suitable Security Rules or trusted backend functions.
+
+If another backend is selected, implement equivalent persistent storage, secure authentication, authorization, tenant isolation and file storage.
+
+Do not introduce a separate backend service merely for appearance. Explain any required external service setup and credentials clearly.
+
+The application must include:
+
+- A working login and registration flow.
+- A protected Super Admin dashboard.
+- A functioning company approval workflow.
+- A working demo environment with enforced limits.
+- A working company creation workflow.
+- Working logo uploads.
+- Functional CRUD operations.
+- Persistent financial transactions.
+- Correct accounting and stock calculations.
+- Functional PDF and print generation.
+- Clear loading, success and error states.
+- Database initialization and migration instructions.
+- A deployment guide.
+- A testing checklist.
+
+Do not silently substitute mock data for real persistence. Clearly label any development fixtures or demonstration data.
+
+25. Development and Delivery Plan
+
+Implement the project in stages while maintaining one coherent architecture.
+
+Phase 1: Project foundation, branding, authentication, guest/demo registration, Super Admin security, company approval and tenant isolation.
+
+Phase 2: Company profiles, logo uploads, subscription plans, expiry controls, employee accounts and permissions.
+
+Phase 3: Products, inventory, purchases, sales, customer dues, supplier payables and transaction documents.
+
+Phase 4: Accounting, expenses, cash and bank management, ledgers and financial reports.
+
+Phase 5: PDF, printing, company-branded templates, multilingual interface and optional business-specific modules.
+
+Phase 6: Security testing, tenant-isolation testing, accounting validation, mobile testing and deployment.
+
+Before completing each phase, test the actual workflows and fix errors rather than merely presenting a visual mockup.
+
+26. Acceptance Criteria
+
+The application will be considered functional only when all the following tests pass:
+
+1. A new user can register but receives only Guest/Demo access.
+2. The demo user cannot access a real company's records.
+3. The demo limit is enforced server-side.
+4. Only an authorized Super Admin can activate a company.
+5. Approved users can access only their assigned company.
+6. Company A cannot access Company B's records, files, invoices or reports.
+7. A company can upload and update its own logo.
+8. The company profile automatically populates invoice and memo headers.
+9. Credit sales correctly increase customer receivables.
+10. Credit purchases correctly increase supplier payables.
+11. Payments update the appropriate outstanding balances.
+12. Purchases and sales update inventory correctly.
+13. Finalized financial entries remain consistent and auditable.
+14. PDF exports and printed documents contain the correct company information.
+15. Expired subscriptions restrict access according to policy without deleting data.
+16. Employees cannot access features outside their assigned permissions.
+17. The platform's Super Admin dashboard remains private.
+18. The system works on Android phones, desktop computers and modern browsers.
+
+Start by establishing the architecture, database schema, authentication model, tenant security and core application shell. Then implement the actual modules and test each phase.
+
+Final instruction: Build a secure, scalable and genuinely functional subscription-based Business Automation System for Data & Code. Prioritize data isolation, accurate business accounting, ease of use, company-specific branding and maintainability over decorative effects. Do not claim that a feature is complete until it has been implemented and tested.

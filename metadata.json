@@ -1,0 +1,8 @@
+{
+  "name": "Remix Data \u0026 Code — Business Automation System",
+  "description": "Multi-tenant business management and automation SaaS for retail, wholesale, dealerships, restaurants, hotels, vehicles, and manufacturing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
